@@ -390,7 +390,7 @@
           # you could also pass something else:
           # see :help nixCats
           themer = true;
-          colorscheme = "onedark";
+          colorscheme = "catppuccin-mocha";
         };
         extra = {
           # to keep the categories table from being filled with non category things that you want to pass
@@ -436,7 +436,7 @@
           go = true;
           lspDebugMode = false;
           themer = true;
-          colorscheme = "catppuccin";
+          colorscheme = "catppuccin-mocha";
         };
         extra = {
           # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
