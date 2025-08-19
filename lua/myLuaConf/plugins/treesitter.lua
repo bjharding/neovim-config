@@ -19,6 +19,7 @@ return {
       require('nvim-treesitter.configs').setup {
         highlight = { enable = true, },
         indent = { enable = false, },
+        fold = { enable = true },
         incremental_selection = {
           enable = true,
           keymaps = {

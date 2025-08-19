@@ -62,6 +62,20 @@ vim.o.completeopt = 'menu,preview,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- [[ Enhanced Folding Configuration ]]
+-- Enable folding with TreeSitter and UFO
+vim.opt.foldcolumn = '1'         -- Show fold indicators
+vim.opt.foldlevel = 99           -- Start with most folds open
+vim.opt.foldlevelstart = 99      -- Start with most folds open
+vim.opt.foldenable = true        -- Enable folding
+vim.opt.foldmethod = 'manual'    -- UFO will handle this
+vim.opt.fillchars = {
+  fold = ' ',
+  foldopen = '',
+  foldsep = ' ',
+  foldclose = '',
+}
+
 -- [[ Disable auto comment on enter ]]
 -- See :help formatoptions
 vim.api.nvim_create_autocmd("FileType", {

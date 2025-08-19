@@ -316,3 +316,6 @@ require('lze').load {
 
 -- Load comment plugin
 require('myLuaConf.plugins.comment')
+
+-- Load folding plugin
+require('myLuaConf.plugins.folding')
