@@ -22,6 +22,7 @@ require('lze').load {
           -- Conform will run multiple formatters sequentially
           python = { "ruff_format", "ruff_organize_imports" },
           proto = { "buf" },
+          go = { "gofmt" },
           -- Use a sub-list to run only the first available formatter
           -- javascript = { { "prettierd", "prettier" } },
         },
