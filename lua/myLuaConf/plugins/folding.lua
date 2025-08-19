@@ -2,7 +2,6 @@ require('lze').load {
   {
     "nvim-ufo",
     for_cat = "general",
-    dependencies = { "promise-async" },
     event = "BufRead",
     keys = {
       { "zR", desc = "Open all folds" },
