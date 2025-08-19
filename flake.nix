@@ -132,6 +132,11 @@
           basedpyright
           ruff
         ];
+        protobuf = with pkgs; [
+          protols
+          buf
+          protobuf
+        ];
         neonixdev = {
           # also you can do this.
           inherit (pkgs) nix-doc lua-language-server nixd;
@@ -366,6 +371,7 @@
           lint = true;
           format = true;
           python = true;
+          protobuf = true;
           neonixdev = true;
           test = {
             subtest1 = true;
@@ -422,6 +428,7 @@
           lint = true;
           format = true;
           python = true;
+          protobuf = true;
           test = true;
           # go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;

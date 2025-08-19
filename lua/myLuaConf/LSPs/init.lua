@@ -179,4 +179,20 @@ require('lze').load {
       },
     },
   },
+  {
+    "protols",
+    for_cat = "protobuf",
+    lsp = {
+      filetypes = { "proto" },
+      settings = {
+        protols = {
+          -- Enable all features
+          completion = true,
+          diagnostics = true,
+          hover = true,
+          signatureHelp = true,
+        },
+      },
+    },
+  },
 }
