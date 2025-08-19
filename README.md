@@ -1,43 +1,192 @@
-# Example `nixCats` Configuration
+# nixCats Neovim Configuration
 
-This directory contains an example of the suggested, idiomatic way to manage a neovim configuration using `nixCats`. It leverages [`lze`](https://github.com/BirdeeHub/lze) for lazy loading, although [`lz.n`](https://github.com/nvim-neorocks/lz.n) can be used instead to similar effect. It also includes a fallback mechanism using `paq` and `mason`, allowing you to load the directory without `nix` if needed.
+A modern, modular Neovim configuration built with [nixCats](https://github.com/BirdeeHub/nixCats-nvim) and [lze](https://github.com/BirdeeHub/lze) for efficient lazy loading. This configuration provides a complete development environment with LSP support, formatting, linting, and modern editing features.
 
-This setup serves as a strong starting point for a `Neovim` configuration—think of it as `kickstart.nvim`, but using `nixCats` **instead of** `lazy.nvim` and `mason`, rather than in addition to them. It also follows a modular approach, spreading the configuration across multiple files rather than consolidating everything into one.
+## ✨ Features
 
-While this is not a "perfect" configuration, nor does it claim to be, it is **a well-structured, recommended way to use `nixCats`**. You are encouraged to customize it to fit your needs. `nixCats` itself is just the `nix`-based package manager, along with its associated [Lua plugin](https://nixcats.org/nixCats_plugin.html).
+### 🚀 Core Features
+- **Lazy Loading**: Uses `lze` for efficient plugin loading
+- **Modular Design**: Clean separation of concerns across multiple files
+- **Nix Integration**: Declarative package management with nixCats
+- **Fallback Support**: Works without Nix using Mason and Paq
 
-## Why Use This Approach?
+### 🛠️ Development Tools
+- **LSP Support**: Full language server integration with `nvim-lspconfig`
+- **Code Completion**: Advanced completion with `nvim-cmp`
+- **Fuzzy Finding**: Telescope integration for files, buffers, and symbols
+- **Syntax Highlighting**: TreeSitter for modern syntax highlighting
+- **Git Integration**: Lazygit integration with floating terminal
+- **Formatting**: Conform.nvim for consistent code formatting
+- **Linting**: nvim-lint for real-time code analysis
 
-Using `nixCats` in this way provides a **simpler, more transparent** experience compared to solutions like `lazy.nvim`, which hijack normal plugin loading.
+### 📋 Language Support
 
-It leverages the normal packpath methods of loading plugins both at startup and lazily, allowing you to know what is going on behind the scenes.
+| Language | LSP | Formatter | Linter | Status |
+|----------|-----|-----------|--------|--------|
+| **Lua** | `lua_ls` | - | - | ✅ Full Support |
+| **Python** | `basedpyright` | `ruff` | `ruff` | ✅ Full Support |
+| **Protobuf** | `protols` | `buf` | - | ✅ Full Support |
+| **Nix** | `nixd` | `nixfmt` | - | ✅ Full Support |
+| **Go** | `gopls` | - | - | 🔧 Available (disabled) |
 
-It avoids duplicating functionality between nix and other nvim based download managers, avoiding compatibility issues.
+## 🚀 Quick Start
 
-You can still have a config that works without nix using this method if desired without undue difficulty.
+### With Nix Flakes
+```bash
+# Clone the repository
+git clone <your-repo-url> ~/.config/nixCats-nvim
+cd ~/.config/nixCats-nvim
 
-## Directory Structure
+# Build and run
+nix run .#nixCats
+```
 
-This configuration primarily uses the following directory structure:
+### Development Shell
+```bash
+# Enter development environment
+nix develop
 
-- The `lua/` directory for core configurations.
-- The `after/plugin/` directory to demonstrate compatibility.
+# Build configuration
+nix build .#nixCats
+```
 
-While this structure works well, you are encouraged to further modularize your setup by utilizing any of the runtime directories checked by Neovim:
+### Without Nix
+The configuration includes fallbacks using Mason and Paq when Nix is not available.
 
-- `ftplugin/` for file-type-specific configurations.
-- `plugin/` for global plugin configurations.
-- Even `pack/*/{start,opt}/` work if you want to make a plugin inside your configuration.
-- And so on...
+## 📁 Project Structure
 
-If you are unfamiliar with the above, refer to the [Neovim runtime path documentation](https://neovim.io/doc/user/options.html#'rtp').
+```
+├── flake.nix                    # Nix flake configuration
+├── init.lua                     # Entry point
+├── lua/
+│   ├── myLuaConf/
+│   │   ├── init.lua            # Core configuration
+│   │   ├── opts_and_keys.lua   # Options and keymaps
+│   │   ├── LSPs/
+│   │   │   ├── init.lua        # LSP configurations
+│   │   │   └── on_attach.lua   # LSP attach handler
+│   │   ├── plugins/
+│   │   │   ├── init.lua        # Plugin specifications
+│   │   │   ├── completion.lua  # Completion setup
+│   │   │   ├── telescope.lua   # Fuzzy finder
+│   │   │   └── treesitter.lua  # Syntax highlighting
+│   │   ├── format.lua          # Code formatting
+│   │   ├── lint.lua            # Code linting
+│   │   └── debug.lua           # Debug configuration
+│   └── nixCatsUtils/           # Utility functions
+└── after/
+    └── plugin/
+        └── colors.lua          # Color scheme
+```
+
+## ⚙️ Configuration
+
+### Categories System
+The configuration uses nixCats' category system to conditionally enable features:
+
+- **`general`**: Core editing features and essential plugins
+- **`python`**: Python development (basedpyright, ruff)
+- **`protobuf`**: Protocol buffer support (protols, buf)
+- **`neonixdev`**: Nix development tools (nixd, lua_ls)
+- **`format`**: Code formatting capabilities
+- **`lint`**: Code linting and analysis
+- **`markdown`**: Markdown editing support
+
+### Key Bindings
+
+| Key | Action | Mode |
+|-----|--------|------|
+| `<leader>ff` | Find files | Normal |
+| `<leader>fg` | Live grep | Normal |
+| `<leader>fb` | Find buffers | Normal |
+| `<leader>fh` | Help tags | Normal |
+| `<leader>FF` | Format file | Normal/Visual |
+| `<leader>lg` | Open Lazygit | Normal |
+| `gd` | Go to definition | Normal |
+| `gr` | Go to references | Normal |
+| `K` | Hover documentation | Normal |
+| `<leader>ca` | Code actions | Normal |
+
+## 🔧 Customization
+
+### Adding a New Language
+
+1. **Add tools to flake.nix**:
+```nix
+mylang = with pkgs; [
+  mylang-lsp
+  mylang-formatter
+];
+```
+
+2. **Enable the category**:
+```nix
+categories = {
+  mylang = true;
+  # ... other categories
+};
+```
+
+3. **Configure LSP**:
+```lua
+{
+  "mylang-lsp",
+  for_cat = "mylang",
+  lsp = {
+    filetypes = { "mylang" },
+    settings = {
+      -- LSP settings
+    },
+  },
+},
+```
+
+4. **Add formatting**:
+```lua
+mylang = { "mylang-formatter" },
+```
+
+### Theming
+The configuration uses Catppuccin Mocha by default. Change the theme in `flake.nix`:
+```nix
+(builtins.getAttr (categories.colorscheme or "onedark") {
+```
+
+## 🏗️ Building
+
+### Available Packages
+- `nixCats`: Full-featured configuration
+- `regularCats`: Alternative build target
+
+### Build Commands
+```bash
+# Build main configuration
+nix build .#nixCats
+
+# Build alternative configuration  
+nix build .#regularCats
+
+# Update dependencies
+nix flake update
+```
+
+## 🤝 Contributing
+
+This configuration serves as a template and starting point. Feel free to:
+- Fork and customize for your needs
+- Submit improvements via pull requests
+- Report issues or suggest features
+
+## 📚 Resources
+
+- [nixCats Documentation](https://nixcats.org/)
+- [lze Plugin Manager](https://github.com/BirdeeHub/lze)
+- [Neovim Documentation](https://neovim.io/doc/)
+
+## 📄 License
+
+This configuration is based on the nixCats example and follows the same licensing terms.
 
 ---
 
-> "Idiomatic" here means:
->
-> - This configuration does **not** use `lazy.nvim`, and does not use `mason.nvim` when nix is involved.
-> - `nixCats` is responsible for downloading all plugins.
-> - Plugins are only loaded if their respective category is enabled.
-> - The [Lua utilities template](https://github.com/BirdeeHub/nixCats-nvim/tree/main/templates/luaUtils/lua/nixCatsUtils) is used (see [`:h nixCats.luaUtils`](https://nixcats.org/nixCats_luaUtils.html)).
-> - [`lze`](https://github.com/BirdeeHub/lze) or [`lz.n`](https://github.com/nvim-neorocks/lz.n) is used for lazy loading.
+*This configuration demonstrates the power of Nix for reproducible, declarative Neovim setups while maintaining the flexibility to work without Nix when needed.*
