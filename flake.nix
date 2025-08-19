@@ -158,6 +158,7 @@
             vim-repeat
             plenary-nvim
             nvim-notify
+            comment-nvim
           ];
           extra = [
             oil-nvim

@@ -313,3 +313,6 @@ require('lze').load {
     end,
   },
 }
+
+-- Load comment plugin
+require('myLuaConf.plugins.comment')
