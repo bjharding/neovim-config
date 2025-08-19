@@ -71,9 +71,9 @@ vim.opt.foldenable = true        -- Enable folding
 vim.opt.foldmethod = 'manual'    -- UFO will handle this
 vim.opt.fillchars = {
   fold = ' ',
-  foldopen = '',
-  foldsep = ' ',
-  foldclose = '',
+  foldopen = '-',
+  foldsep = '│',
+  foldclose = '+',
 }
 
 -- [[ Disable auto comment on enter ]]
