@@ -109,6 +109,7 @@
           universal-ctags
           ripgrep
           fd
+          lazygit
         ];
         # these names are arbitrary.
         lint = with pkgs; [
@@ -126,6 +127,10 @@
         ];
         # and easily check if they are included in lua
         format = with pkgs; [
+        ];
+        python = with pkgs; [
+          basedpyright
+          ruff
         ];
         neonixdev = {
           # also you can do this.
@@ -158,7 +163,7 @@
         # packageDefinitions of the package this was packaged with.
         # :help nixCats.flake.outputs.categoryDefinitions.scheme
         themer = with pkgs.vimPlugins;
-          (builtins.getAttr (categories.colorscheme or "onedark") {
+          (builtins.getAttr (categories.colorscheme or "catppuccin-mocha") {
               # Theme switcher without creating a new category
               "onedark" = onedark-nvim;
               "catppuccin" = catppuccin-nvim;
@@ -360,6 +365,7 @@
           general = true;
           lint = true;
           format = true;
+          python = true;
           neonixdev = true;
           test = {
             subtest1 = true;
@@ -415,6 +421,7 @@
           neonixdev = true;
           lint = true;
           format = true;
+          python = true;
           test = true;
           # go = true; # <- disabled but you could enable it with override or module on install
           lspDebugMode = false;

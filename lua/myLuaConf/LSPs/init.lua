@@ -163,4 +163,20 @@ require('lze').load {
       },
     },
   },
+  {
+    "basedpyright",
+    for_cat = "python",
+    lsp = {
+      filetypes = { "python" },
+      settings = {
+        basedpyright = {
+          analysis = {
+            typeCheckingMode = "standard",
+            autoSearchPaths = true,
+            useLibraryCodeForTypes = true,
+          },
+        },
+      },
+    },
+  },
 }

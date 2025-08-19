@@ -116,6 +116,30 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+-- Git integration
+vim.keymap.set('n', '<leader>lg', function()
+  -- Create floating terminal with better sizing
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.9)
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = 'editor',
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = 'minimal',
+    border = 'rounded',
+  })
+  
+  vim.fn.termopen('lazygit', {
+    on_exit = function()
+      vim.api.nvim_win_close(win, true)
+    end,
+  })
+  vim.cmd('startinsert')
+end, { desc = 'Open Lazygit in floating terminal' })
+
 
 -- kickstart.nvim starts you with this. 
 -- But it constantly clobbers your system clipboard whenever you delete anything.

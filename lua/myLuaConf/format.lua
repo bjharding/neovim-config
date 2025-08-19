@@ -20,7 +20,7 @@ require('lze').load {
           -- go = { "gofmt", "golint" },
           -- templ = { "templ" },
           -- Conform will run multiple formatters sequentially
-          -- python = { "isort", "black" },
+          python = { "ruff_format", "ruff_organize_imports" },
           -- Use a sub-list to run only the first available formatter
           -- javascript = { { "prettierd", "prettier" } },
         },
