@@ -137,6 +137,9 @@
           buf
           protobuf
         ];
+        markdown = with pkgs; [
+          markdown-oxide
+        ];
         neonixdev = {
           # also you can do this.
           inherit (pkgs) nix-doc lua-language-server nixd;
@@ -208,6 +211,7 @@
         ];
         markdown = with pkgs.vimPlugins; [
           markdown-preview-nvim
+          bullets-vim
         ];
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim

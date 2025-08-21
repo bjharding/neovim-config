@@ -1,4 +1,4 @@
-return function(_, bufnr)
+return function(client, bufnr)
   -- we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
 
@@ -43,5 +43,39 @@ return function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+
+  -- Markdown-oxide specific keybinds
+  if client.name == "markdown_oxide" then
+    -- PKM Navigation
+    nmap('<leader>ml', function() require('telescope.builtin').lsp_references() end, '[M]arkdown [L]inks/References')
+    nmap('<leader>mb', function() require('telescope.builtin').lsp_references() end, '[M]arkdown [B]acklinks')
+    nmap('<leader>mf', function() require('telescope.builtin').lsp_dynamic_workspace_symbols() end, '[M]arkdown [F]ind Files')
+    nmap('<leader>mg', vim.lsp.buf.definition, '[M]arkdown [G]o to Link')
+
+    -- PKM Commands
+    nmap('<leader>mn', function()
+      vim.lsp.buf.code_action({
+        filter = function(action)
+          return action.title:match("Create")
+        end
+      })
+    end, '[M]arkdown [N]ew Note from Link')
+
+    -- Daily Notes Commands
+    vim.api.nvim_create_user_command("Daily", function(args)
+      client:exec_cmd({command="jump", arguments={args.args}})
+    end, {desc = 'Open daily note', nargs = "*"})
+
+    nmap('<leader>md', function()
+      vim.cmd('Daily today')
+    end, '[M]arkdown [D]aily Note Today')
+
+    nmap('<leader>mD', function()
+      local input = vim.fn.input('Daily note date (dd-mm-yy): ')
+      if input ~= '' then
+        vim.cmd('Daily ' .. input)
+      end
+    end, '[M]arkdown Daily Note with [D]ate')
+  end
 
 end

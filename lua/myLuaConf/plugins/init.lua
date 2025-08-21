@@ -74,16 +74,65 @@ require('lze').load {
     -- it is defined in luaUtils template in lua/nixCatsUtils/lzUtils.lua
     -- you could replace this with enabled = nixCats('cat.name') == true
     -- if you didnt care to set a different default for when not using nix than the default you already set
-    for_cat = 'general.markdown',
+    for_cat = 'markdown',
     cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle", },
     ft = "markdown",
     keys = {
       {"<leader>mp", "<cmd>MarkdownPreview <CR>", mode = {"n"}, noremap = true, desc = "markdown preview"},
       {"<leader>ms", "<cmd>MarkdownPreviewStop <CR>", mode = {"n"}, noremap = true, desc = "markdown preview stop"},
       {"<leader>mt", "<cmd>MarkdownPreviewToggle <CR>", mode = {"n"}, noremap = true, desc = "markdown preview toggle"},
+      -- Markdown editing helpers
+      {"<leader>mi", function()
+        local link_text = vim.fn.input('Link text: ')
+        local link_url = vim.fn.input('Link URL: ')
+        if link_text ~= '' and link_url ~= '' then
+          vim.api.nvim_put({string.format('[%s](%s)', link_text, link_url)}, 'c', true, true)
+        end
+      end, mode = {"n"}, desc = "insert link"},
+      {"<leader>mI", function()
+        local alt_text = vim.fn.input('Alt text: ')
+        local img_url = vim.fn.input('Image URL: ')
+        if alt_text ~= '' and img_url ~= '' then
+          vim.api.nvim_put({string.format('![%s](%s)', alt_text, img_url)}, 'c', true, true)
+        end
+      end, mode = {"n"}, desc = "insert image"},
+      {"<leader>mc", function()
+        vim.api.nvim_put({'- [ ] '}, 'c', true, true)
+        vim.cmd('startinsert!')
+      end, mode = {"n"}, desc = "create checkbox"},
+      {"<leader>mT", function()
+        local line = vim.api.nvim_get_current_line()
+        local new_line
+        if line:match('%- %[ %]') then
+          new_line = line:gsub('%- %[ %]', '- [x]')
+        elseif line:match('%- %[x%]') then
+          new_line = line:gsub('%- %[x%]', '- [ ]')
+        else
+          return
+        end
+        vim.api.nvim_set_current_line(new_line)
+      end, mode = {"n"}, desc = "toggle task completion"},
     },
-    before = function(plugin)
+    before = function(_)
       vim.g.mkdp_auto_close = 0
+    end,
+  },
+  {
+    "bullets.vim",
+    for_cat = "markdown",
+    ft = "markdown",
+    before = function(_)
+      -- Enable for markdown files
+      vim.g.bullets_enabled_file_types = { 'markdown', 'text', 'gitcommit' }
+      
+      -- Use standard markdown checkboxes: [ ] and [x]
+      vim.g.bullets_checkbox_markers = ' x'
+      
+      -- Enable auto-wrapping for long lines
+      vim.g.bullets_set_mappings = 1
+      
+      -- Disable checkbox progression (keep standard [ ]/[x] only)
+      vim.g.bullets_checkbox_partials_toggle = 0
     end,
   },
   {

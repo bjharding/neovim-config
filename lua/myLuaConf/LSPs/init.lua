@@ -195,4 +195,21 @@ require('lze').load {
       },
     },
   },
+  {
+    "markdown_oxide",
+    for_cat = "markdown",
+    lsp = {
+      filetypes = { "markdown" },
+      on_attach = require('myLuaConf.LSPs.on_attach'),
+      settings = {
+        markdown_oxide = {
+          -- Enable all features
+          completion = true,
+          diagnostics = true,
+          hover = true,
+          references = true,
+        },
+      },
+    },
+  },
 }
