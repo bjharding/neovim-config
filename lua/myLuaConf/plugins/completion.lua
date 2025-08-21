@@ -6,18 +6,23 @@ end
 return {
   {
     "cmp-cmdline",
-    for_cat = "general.blink",
+    for_cat = "blink",
     on_plugin = { "blink.cmp" },
     load = load_w_after,
   },
   {
     "blink.compat",
-    for_cat = "general.blink",
+    for_cat = "blink",
     dep_of = { "cmp-cmdline" },
   },
   {
+    "friendly-snippets",
+    for_cat = "blink",
+    dep_of = { "luasnip" },
+  },
+  {
     "luasnip",
-    for_cat = "general.blink",
+    for_cat = "blink",
     dep_of = { "blink.cmp" },
     after = function (_)
       local luasnip = require 'luasnip'
@@ -35,19 +40,19 @@ return {
   },
   {
     "colorful-menu.nvim",
-    for_cat = "general.blink",
+    for_cat = "blink",
     on_plugin = { "blink.cmp" },
   },
   {
     "blink.cmp",
-    for_cat = "general.blink",
+    for_cat = "blink",
     event = "DeferredUIEnter",
     after = function (_)
       require("blink.cmp").setup({
         -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
         -- See :h blink-cmp-config-keymap for configuring keymaps
         keymap =  {
-          preset = 'default',
+          preset = 'super-tab',
         },
         cmdline = {
           enabled = true,
@@ -115,13 +120,19 @@ return {
         sources = {
           default = { 'lsp', 'path', 'snippets', 'buffer', 'omni' },
           providers = {
-            path = {
-              score_offset = 50,
-            },
             lsp = {
-              score_offset = 40,
+              score_offset = 100,
             },
             snippets = {
+              score_offset = 90,
+            },
+            path = {
+              score_offset = 70,
+            },
+            buffer = {
+              score_offset = 50,
+            },
+            omni = {
               score_offset = 40,
             },
             cmp_cmdline = {

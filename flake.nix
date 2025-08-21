@@ -212,14 +212,15 @@
         neonixdev = with pkgs.vimPlugins; [
           lazydev-nvim
         ];
+        blink = with pkgs.vimPlugins; [
+          luasnip
+          friendly-snippets
+          cmp-cmdline
+          blink-cmp
+          blink-compat
+          colorful-menu-nvim
+        ];
         general = {
-          blink = with pkgs.vimPlugins; [
-            luasnip
-            cmp-cmdline
-            blink-cmp
-            blink-compat
-            colorful-menu-nvim
-          ];
           treesitter = with pkgs.vimPlugins; [
             nvim-treesitter-textobjects
             nvim-treesitter.withAllGrammars
@@ -370,6 +371,7 @@
         categories = {
           markdown = true;
           general = true;
+          blink = true;
           lint = true;
           format = true;
           python = true;
@@ -426,6 +428,7 @@
         categories = {
           markdown = true;
           general = true;
+          blink = true;
           neonixdev = true;
           lint = true;
           format = true;
