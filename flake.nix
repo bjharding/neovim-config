@@ -158,7 +158,6 @@
             vim-repeat
             plenary-nvim
             nvim-notify
-            comment-nvim
             nvim-ufo
             promise-async
           ];
