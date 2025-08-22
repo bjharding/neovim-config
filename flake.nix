@@ -258,6 +258,8 @@
             undotree
             indent-blankline-nvim
             vim-startuptime
+            hardtime-nvim
+            nui-nvim
             # If it was included in your flake inputs as plugins-hlargs,
             # this would be how to add that plugin in your config.
             # pkgs.neovimPlugins.hlargs

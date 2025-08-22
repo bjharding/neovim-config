@@ -164,6 +164,30 @@ require('lze').load {
     end,
   },
   {
+    "nui.nvim",
+    for_cat = 'general.extra',
+    -- No special configuration needed, just needs to be available
+  },
+  {
+    "hardtime.nvim",
+    for_cat = 'general.extra',
+    event = "DeferredUIEnter",
+    dep_of = { "nui.nvim" },
+    after = function(_)
+      require("hardtime").setup({
+        max_time = 1000,
+        max_count = 3,
+        disable_mouse = true,
+        hint = true,
+        notification = true,
+        enabled = true,
+        -- Customize restrictions for better workflow
+        restriction_mode = "hint", -- Show hints instead of blocking
+        timeout = 3000,
+      })
+    end,
+  },
+  {
     "vim-startuptime",
     for_cat = 'general.extra',
     cmd = { "StartupTime" },
