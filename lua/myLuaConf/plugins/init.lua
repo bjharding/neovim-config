@@ -40,6 +40,23 @@ if nixCats('general.extra') then
       "size",
       -- "mtime",
     },
+    float = {
+      padding = 3,
+      max_width = 0.9,
+      max_height = 0.85,
+      border = "rounded",
+      win_options = {
+        winblend = 15,
+        winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
+      },
+      get_win_title = function(winid)
+        local oil = require("oil")
+        local dir = oil.get_current_dir()
+        local shortened = vim.fn.fnamemodify(dir, ":~")
+        return "📁 " .. shortened .. " "
+      end,
+      preview_split = "auto",
+    },
     keymaps = {
       ["g?"] = "actions.show_help",
       ["<CR>"] = "actions.select",
@@ -59,8 +76,7 @@ if nixCats('general.extra') then
       ["g\\"] = "actions.toggle_trash",
     },
   })
-  vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, desc = 'Open Parent Directory' })
-  vim.keymap.set("n", "<leader>-", "<cmd>Oil .<CR>", { noremap = true, desc = 'Open nvim root directory' })
+  vim.keymap.set("n", "<leader>o", "<cmd>Oil --float<CR>", { noremap = true, desc = 'Open oil in floating window' })
 end
 
 require('lze').load {
