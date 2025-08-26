@@ -89,6 +89,10 @@
 - [ ] **Add remote development** - SSH/container editing support
 - [ ] **Improve terminal workflow** - Better shell integration
 
+## Usages
+
+- Define process in which neovim with this config can be used on remote systems over SSH (not running nix)
+
 ## ✅ Recently Completed
 - [x] **Enhanced oil.nvim floating window** - Added dynamic title, transparency, smart preview
 - [x] **Consolidated oil keybinds** - Single `<leader>o` keybind for floating window
